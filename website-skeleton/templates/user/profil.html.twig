@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<h1>Mon profil</h1>
+<p>Nom d'utilisateur: {{app.user.username}}</p>
+<p>Adresse e-mail: {{app.user.email}}</p>
+<p>Compte crée le {{app.user.createdAt|date("m/d/Y")}}</p>
+<h2>Mes questions</h2>
+<ul>
+{% for question in app.user.questions %}
+<a href="{{path('question_show', {'id': question.id})}}">{{question.title}}</a>
+    
+{% endfor %}
+<h2>Mes réponses apportées</h2>
+{% for answer in app.user.answers %}
+<a href="{{path('question_show', {'id': answer.question.id})}}">{{answer.content}}</a>    
+{% endfor %}
+<a href="{{path('user_edit', {'id': app.user.id})}}">Modifier mon profil</a>
+</ul>
+
+
+{% endblock %}

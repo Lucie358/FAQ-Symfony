@@ -1,0 +1,51 @@
+{% extends 'base_form.html.twig' %}
+{% block title %}Se connecter
+{% endblock %}
+
+    {% block title_form %}
+        <h1 class= "form_title">Veuillez vous connecter</h1>
+    {% endblock %}
+    {% block content %}
+
+        <form class="form_security" method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connecté en tant que
+                    {{ app.user.username }},
+                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                </div>
+            {% endif %}
+
+
+            <label class="sr-only" for="inputUsername">Nom d'utilisateur</label>
+            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
+            <label class="sr-only" for="inputPassword">Mot de passe</label>
+            <input class="form-control" id="inputPassword" name="password" placeholder="Mot de passe" required type="password">
+
+            <input
+            type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            {#
+                                        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                                        See https://symfony.com/doc/current/security/remember_me.html
+                                
+                                        <div class="checkbox mb-3">
+                                            <label>
+                                                <input type="checkbox" name="_remember_me"> Remember me
+                                            </label>
+                                        </div>
+                                    #}
+
+            <button type="submit">
+                {% block confirm %}
+                    Me connecter
+                {% endblock %}
+            </button>
+            <a href="{{path('app_register')}}">Pas de compte ? Inscrivez-vous !</a>
+        </form>
+        
+    {% endblock %}
+

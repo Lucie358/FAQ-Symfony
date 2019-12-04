@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}<link rel="stylesheet" href="{{asset('assets/css/form.css')}}">
+{% endblock %}
+
+{% block title %}Nouveau tag{% endblock %}
+{% block content %}
+    <h1>Créer un nouveau tag</h1>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+{{ form_end(form) }}
+    <a href="{{ path('backend_tag_index') }}">Retour à la liste</a>
+
+{% endblock %}

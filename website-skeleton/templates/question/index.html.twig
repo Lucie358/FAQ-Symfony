@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQ - O'Clock
+{% endblock %}
+{% block content %}
+    <div class="questions_list">
+
+
+        {% for question in questions %}
+            {% if question.status == null or question.status.code == "UNBLOCKED" %}
+
+                <div class="question ">
+                    <div class="question_title">
+                        {{question.title}}
+                    </div>
+                    <div class="question_content">
+                        {# truncate permet de réduire la taille du contenu de ma question et ajouter "..." après. #}
+                        <p>{{question.content|truncate(250, true)}}</p>
+                        <a class="btn_info" href="{{ path('question_show', {'id': question.id}) }}">Voir la suite...</a>
+
+
+                    </div>
+                    {% if is_granted('ROLE_USER_MODO') %}
+
+                        <a class="btn_lock" href="{{ path('question_block', {'id': question.id}) }}"><i class="fas fa-lock"></i> Bloquer la question</a>
+                    {% endif %}
+                    <div class="question_info">
+
+                        <div class="question_tags">
+                            {% for tag in question.tags %}
+                                <a class="btn_tag btn_tag-question link" href="">{{tag.name}}</a>
+                            {% endfor %}
+
+                        </div>
+                        <div class="question_user">
+                            <p>Demandé par
+                                {{question.user.username}}
+                                le
+                                {{question.createdAt|localizeddate('none', 'none', 'FR_fr',null,'d MMMM yyyy')}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+
+{% endblock %}

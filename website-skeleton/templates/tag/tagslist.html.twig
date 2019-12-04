@@ -1,0 +1,3 @@
+{% for tag in tags %}
+    <a class='btn_tag link' href="{{ path('tag_questionByTag', {'id': tag.id}) }}">{{tag.name}}</a>
+{% endfor %}

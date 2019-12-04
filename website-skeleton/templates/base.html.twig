@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}Welcome!
+            {% endblock %}
+        </title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Delius&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{{asset('assets/css/reset.css')}}">
+         <script src="https://kit.fontawesome.com/ba3827f4da.js"></script>
+
+        <link rel="stylesheet" href="{{asset('assets/css/style.css')}}"> {% block stylesheets %}{% endblock %}
+        </head>
+        <body>
+            {% block javascripts %}{% endblock %}
+
+            <div class='wrapper'>
+                <header class="sidebar">
+                    <a href="{{path('questions_index')}}" class="FAQ_title">FAQ O'Clock</a>
+                    <div class="sidebar_nav">
+                        <nav class="btn_nav">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {# est ce que mon utilisateur est authentifié ? #}
+                                <a class="btn_nav-link link" href="{{path('user_profil')}}">Mon profil</a>
+                                {% if is_granted('ROLE_USER_ADMIN') %}
+                                    <a class="btn_nav-link link" href="{{path('backend_user_index')}}">Role</a>
+                                {% endif %}
+                                {% if is_granted('ROLE_USER_MODO') %}
+
+                                    <a class="btn_nav-link link" href="{{path('backend_tag_index')}}">Tag</a>
+                                {% endif %}
+                            {% else %}
+                                {# si non , alors je lui propose de se connecter#}
+
+
+                                <a class="btn_nav-link link" href="{{path('app_login')}}">Se connecter</a>
+                                <a class="btn_nav-link link" href="{{path('app_register')}}">S'inscrire</a>
+
+                            {% endif %}
+
+                        </nav>
+                        <div class='tags'>
+                            {{ render(controller(
+        'App\\Controller\\TagController::tagsList' )) }}
+                        </div>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                            <a class="btn_nav-link link logout " href="{{ path('app_logout')}} "><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                        {% endif %}
+
+                    </div>
+
+                </header>
+                <div class='main'>
+                    <div class='toolbar'>
+                        {% if is_granted('ROLE_USER_MODO') %}
+
+                            <a class="btn_toolbar link" href="{{path('backend_blocked_index')}}"><i class="fas fa-unlock-alt"></i> Gestion des blocages</a>
+                        {% endif %}
+                        <a class="btn_toolbar link " href="{{path('question_add')}}"><i class="fas fa-plus-circle"></i> Poser une question</a>
+                    </div>
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% block content %}{% endblock %}
+                </div>
+
+
+            </body>
+
+            {% block body %}{% endblock %}
+        </body>
+    </html>
+</body></html>

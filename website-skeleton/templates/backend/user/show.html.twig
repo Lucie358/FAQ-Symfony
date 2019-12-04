@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block content %}
+    <h1>Utilisateur</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th class='column1'>Id</th>
+                <td class='column1'>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th class='column1'>Username</th>
+                <td class='column1'>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th class='column1'>Email</th>
+                <td class='column1'>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th class='column1'>Crée le </th>
+                <td class='column1'>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th class='column1'>Role </th>
+                <td class='column1'>{{ user.role }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <a href="{{ path('backend_user_index') }}">back to list</a>
+
+    <a href="">editer</a>
+
+{% endblock %}

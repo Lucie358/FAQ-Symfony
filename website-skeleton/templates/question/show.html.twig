@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}<link rel="stylesheet" href="{{asset('assets/css/form.css')}}">
+{% endblock %}
+
+
+{% block content %}
+    <div class='question_show'>
+        <div class="question_title show">
+            #{{question.id}}
+            {{question.title}}
+        </div>
+        <div class="question_user user_show">
+            <p>Demandé par
+                {{question.user.username}}
+                le
+                {{question.createdAt|localizeddate('none', 'none', 'FR_fr',null,'d MMMM yyyy')}}</p>
+        </div>
+        <div class="question_content">
+            <p>{{question.content}}</p>
+
+        </div>
+
+        <div class="question_info">
+            <div class="question_tags">
+                {% for tag in question.tags %}
+                    <a class="btn_tag btn_tag-question btn_tag_show link" href="">{{tag.name}}</a>
+                {% endfor %}
+            </div>
+
+        </div>
+        <p class="answer_nb">{{question.answers|length}}
+            {% if question.answers|length > 1 %}
+                réponses
+            {% else %}
+                réponse
+            {% endif %}
+
+        </p>
+    </div>
+
+
+    <div class="answers">
+        {% for answer in question.answers %}
+            {% if question.ValideAnswer == answer.id %}
+
+                <div class="answer valid_answer">
+                    <h3><i class="fas fa-check-circle"></i> La réponse selectionnée par
+                        {{question.user.username}}:</h3>
+
+                    <p class="answer_content">{{answer.content}}</p>
+                    <p class="answer_user">
+                        Posté par
+                        {{answer.user.username}}
+                        le
+                        {{answer.createdAt|localizeddate('none', 'none', 'FR_fr',null,'d MMMM yyyy')}}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+
+        {% for answer in question.answers %}
+            {% if answer.status == null or answer.status.code == "UNBLOCKED" %}
+
+                {% if question.ValideAnswer != answer.id %}
+
+                    <div class="answer {% if question.ValideAnswer == answer.id %}valid_answer{% endif %}">
+
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and question.user.id == app.user.id %}
+
+                            <a href="{{ path('question_validate', {'id': question.id, 'answer_id': answer.id}) }}"><i class="fas fa-check-circle"></i> Valider la réponse</a>
+
+                        {% endif %}
+
+                        <p class="answer_content">{{answer.content}}</p>
+                        {% if is_granted('ROLE_USER_MODO') %}
+
+                            <a class="btn_lock" href="{{ path('answer_block', {'id': answer.id}) }}">
+                                <i class="fas fa-lock"></i>
+                                Bloquer la réponse</a>
+                        {% endif %}
+                        <p class="answer_user">
+                            Posté par
+                            {{answer.user.username}}
+                            le
+                            {{answer.createdAt|localizeddate('none', 'none', 'FR_fr',null,'d MMMM yyyy')}}</p>
+                        
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+
+    </div>
+    <div>
+        <h1>Proposer une réponse</h1>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn">{{ button_label|default('Envoyer') }}</button>
+            {{ form_end(form) }}
+        {% else %}
+            <h2>Vous devez être connecté</h2>
+        {% endif %}
+    </div>
+
+
+</div>{% endblock %}

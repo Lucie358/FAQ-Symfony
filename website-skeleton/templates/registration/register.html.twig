@@ -1,0 +1,20 @@
+{% extends 'base_form.html.twig' %}
+
+{% block title_form %}
+        <h1 class= "form_title">Formulaire d'inscription</h1>
+    {% endblock %}
+
+{% block content %}
+
+
+    {{ form_start(registrationForm, {'attr': {'class': 'form_security'}}) }}
+        {{ form_row(registrationForm.username, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+        
+
+        <button class="btn">S'enregistrer</button>
+            <a href="{{path('app_login')}}">Déjà un compte ? Connectez-vous !</a>
+
+    {{ form_end(registrationForm) }}
+{% endblock %}

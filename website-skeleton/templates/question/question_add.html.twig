@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}<link rel="stylesheet" href="{{asset('assets/css/form.css')}}">
+{% endblock %}
+
+{% block content %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+        <div class="ask">
+            <h1 class='form_title_add'>Je souhaite poser une question:</h1>
+
+            {{ form_start(form , {'attr': {'class': 'form_security-add'}}) }}
+
+
+            {{ form_widget(form) }}
+            
+            <button class="btn">{{ button_label|default('Poser la question') }}</button>
+            
+            {{ form_end(form) }}</div>
+    {% else %}
+        <h1 class='form_title_add'>Vous devez être connecté pour poser une question</h1>
+    {% endif %}
+{% endblock %}

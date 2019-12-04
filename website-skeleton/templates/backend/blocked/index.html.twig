@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des blocages
+{% endblock %}
+
+{% block content %}
+    <h1>Gerer les blocages</h1>
+    <h2>Les questions</h2>
+    <div class='container-table'>
+        <table class="table">
+            <thead>
+                <tr class='table-head'>
+                    <th class="column1">Id</th>
+                    <th class="column2">Titre</th>
+                    <th class="column3">Contenu</th>
+                    <th class="column3"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for question in questions %}
+                    {% if  question.status.code == "BLOCKED" %}
+
+                        <tr>
+                            <td class="column1">{{ question.id }}</td>
+                            <td class="column2">{{ question.title }}</td>
+                            <td class="column3">
+                                {{question.content}}
+
+                            </td>
+
+                            <td class="column3">
+                                <a href="{{ path('question_unblock', {'id': question.id}) }}">Débloquer la question</a>
+                            </td>
+                        </tr>
+
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Les réponses</h2>
+    <div class='container-table'>
+        <table class="table">
+            <thead>
+                <tr class='table-head'>
+                    <th class="column1">Id</th>
+                    <th class="column2">Auteur</th>
+                    <th class="column3">Contenu</th>
+                    <th class="column3"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for answer in answers %}
+                    {% if  answer.status.code == "BLOCKED" %}
+
+                        <tr>
+                            <td class="column1">{{ answer.id }}</td>
+                            <td class="column2">{{ answer.user.username }}</td>
+                            <td class="column3">
+                                {{answer.content}}
+
+                            </td>
+
+                            <td class="column3">
+                                <a href="{{ path('question_unblock', {'id': answer.id}) }}">Débloquer la réponse</a>
+                            </td>
+                        </tr>
+
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

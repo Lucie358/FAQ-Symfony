@@ -1,0 +1,31 @@
+App\Entity\Tag:
+    tag{1..10}:
+        name: '<word()>' 
+        
+App\Entity\User:
+    user{1..20}:
+        username: '<userName()>' 
+        email: '<safeEmail()>'
+        password: '<password()>' 
+        role: '@role*'
+
+App\Entity\Role:
+    role{1..3}:
+        label: '<word()>' 
+        code: '<word()>'
+       
+
+App\Entity\Question:
+    question{1..23}:
+        title: '<sentence()>' 
+        content: '<realText(600)>'
+        tags: '5x @tag*' # j'associe 5 genres (5X) au aléatoire (@my_genre*)
+        user: '@user*'
+
+App\Entity\Answer:
+    answer{1..35}:
+        content: '<realText()>'
+        question: '@question*' 
+        user: '@user*'
+
+

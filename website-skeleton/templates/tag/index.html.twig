@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQ - O'Clock
+{% endblock %}
+{% block content %}
+<h1>Catégorie: {{tag.name}}</h1>
+    <div class="questions_list">
+        {% for question in tag.questions %}
+            <div class='question'>
+                <div class="question_title">
+                    {{question.title}}
+                </div>
+                <div class="question_content">
+                    <p>{{question.content}}</p>
+                </div>
+
+                <div class="question_info">
+                    <div class="question_tags">
+                        {% for tag in question.tags %}
+                            <a class="btn_tag btn_tag-question link" href="">{{tag.name}}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="question_user">
+                        <p>Demandé par
+                            {{question.user.username}}
+                            le
+                            {{question.createdAt|localizeddate('none', 'none', 'FR_fr',null,'d MMMM yyyy')}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    {% endblock %}
